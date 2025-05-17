@@ -1,0 +1,31 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.navbar {
+    background-color: #1c1c1c !important;
+}
+
+.jumbotron {
+    padding: 30px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+}
+
+.card {
+    background-color: #1c1c1c;
+    color: #ffffff;
+    border: 1px solid #343a40;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.badge-primary {
+    background-color: #ff9800 !important;
+}
+
+.badge-success {
+    background-color: #4caf50 !important;
+}
