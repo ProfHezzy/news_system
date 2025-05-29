@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Production configs via environment variables
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-temp-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,news_app.onrender.com').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,news-app-y3pp.onrender.com').split(',')
 
 NEWS_API_KEY = 'pub_b9245d5f1b614c0dbbe7983b3d4aa8b0'
 
@@ -19,11 +19,6 @@ SECRET_KEY = 'django-insecure-#!e0vo2905t!2=fx=pffdp5iamtw=&2)=s)0kaxv98hvfc9=kf
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ["*"]
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
