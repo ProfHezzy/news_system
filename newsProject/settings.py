@@ -9,6 +9,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-temp-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,news_app.onrender.com').split(',')
 
+NEWS_API_KEY = 'pub_b9245d5f1b614c0dbbe7983b3d4aa8b0'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,6 +56,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                #'newsApp.context_processors.default_images',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -86,6 +89,19 @@ WSGI_APPLICATION = 'newsProject.wsgi.application'
         'PORT': '3306',
     }
 }'''
+
+# Settings for production (Render)
+if 'RENDER' in os.environ:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
+    # This should already be in your middleware
+    MIDDLEWARE = [
+        # ...
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        # ...
+    ]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
