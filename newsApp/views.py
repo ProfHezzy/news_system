@@ -1,52 +1,59 @@
 from django.shortcuts import render
-from newsapi import NewsApiClient
 import requests
 
 def index(request):
-    newsApi = NewsApiClient(api_key='de3cf4782b81464e8845bde3d8fca06a')
-    selected_source = request.GET.get('source', 'fox-sports')
+    # Your NewsData.io API key
+    api_key = 'pub_b9245d5f1b614c0dbbe7983b3d4aa8b0'
 
-    try:
-        headlines = newsApi.get_top_headlines(sources=selected_source)
-        articles = headlines.get('articles', [])
-    except requests.exceptions.RequestException as e:
-        # Network or HTTP error
-        print(f"Request error: {e}")
-        articles = []
-    except Exception as e:
-        # Other errors, including JSON decode errors
-        print(f"Error fetching news: {e}")
-        articles = []
+    # Get the selected category from the request (default to 'sports')
+    selected_category = request.GET.get('category', 'sports')
 
-    desc, news, img, content, urls = [], [], [], [], []
+    # Fetch headlines for the selected category using NewsData.io
+    url = f'https://newsdata.io/api/1/news?apikey={api_key}&country=us&category={selected_category}&language=en'
+
+    response = requests.get(url)
+    data = response.json()
+
+    # Check for API success
+    articles = data.get('results', [])
+
+    # Prepare data for the template
+    desc = []
+    news = []
+    img = []
+    content = []
+    urls = []
 
     for article in articles:
-        desc.append(article.get('description'))
-        news.append(article.get('title'))
-        img.append(article.get('urlToImage'))
+        desc.append(article.get('description', 'No Description'))
+        news.append(article.get('title', 'No Title'))
+        img.append(article.get('image_url', 'https://via.placeholder.com/150'))
         content.append(article.get('content', 'No Content Available'))
-        urls.append(article.get('url', '#'))
+        urls.append(article.get('link', '#'))
 
     mylist = zip(desc, news, img, content, urls)
 
-    news_sources = {
-        "Fortune": "fortune",
-        "ABC News": "abc-news",
-        "Al Jazeera English": "al-jazeera-english",
-        "BBC News": "bbc-news",
-        "BBC Sport": "bbc-sport",
-        "Business Insider": "business-insider",
-        "Crypto Coins News": "crypto-coins-news",
-        "Entertainment Weekly": "entertainment-weekly",
-        "Financial Post": "financial-post",
-        "Fox News": "fox-news",
-        "Fox Sports": "fox-sports",
-        "Google News": "google-news",
-        "Medical News Today": "medical-news-today"
+    # List of categories instead of sources
+    news_categories = {
+        "Top Headlines": "top",
+        "World": "world",
+        "Politics": "politics",
+        "Business": "business",
+        "Sports": "sports",
+        "Technology": "technology",
+        "Science": "science",
+        "Health": "health",
+        "Entertainment": "entertainment",
+        "Environment": "environment",
+        "Education": "education",
+        "Food": "food",
+        "Tourism": "tourism",
+        "Crime": "crime"
     }
 
+    # Pass the selected category and news categories to the template
     return render(request, 'main/index.html', {
         "mylist": mylist,
-        "news_sources": news_sources,
-        "selected_source": selected_source
+        "news_categories": news_categories,
+        "selected_category": selected_category
     })

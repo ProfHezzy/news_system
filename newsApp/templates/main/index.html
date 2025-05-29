@@ -27,13 +27,13 @@
             <div class="d-flex">
                 <!-- Dropdown for News Type -->
                 <div class="dropdown me-3">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="newsSourceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="newsCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         News Type
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="newsSourceDropdown">
-                        {% for name, id in news_sources.items %}
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="newsCategoryDropdown">
+                        {% for name, code in news_categories.items %}
                             <li>
-                                <a class="dropdown-item" href="#" data-source="{{ id }}">{{ name }}</a>
+                                <a class="dropdown-item" href="?category={{ code }}">{{ name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
